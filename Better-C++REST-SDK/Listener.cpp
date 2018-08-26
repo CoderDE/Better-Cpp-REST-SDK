@@ -1,5 +1,11 @@
 #include "Listener.h"
 
+using namespace std;
+using namespace std::experimental;
+using namespace web;
+using namespace web::http;
+using namespace web::http::experimental::listener;
+
 Listener::Listener(string uri_s, ListenerConfig config) : config(config) {
 	web::uri_builder uri(uri_s);
 	listener = http_listener(uri.to_uri().to_string(), config.nconfig);

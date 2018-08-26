@@ -4,6 +4,12 @@
 
 #include "Listener.h"
 
+using namespace std;
+using namespace std::experimental;
+using namespace web;
+using namespace web::http;
+using namespace web::http::experimental::listener;
+
 Path::Path(string path, Listener& listener) : listener(listener) {
 	/*int len = path.length();
 	{
@@ -32,11 +38,11 @@ const vector<string> Path::getNodes() const {
 	return nodes;
 }
 
-int Path::existsRef(string var) {
-	if (refs.find(var) != refs.end()) return 1;
-	if (listRefs.find(var) != listRefs.end()) return 2;
-	if (mapRefs.find(var) != mapRefs.end()) return 3;
-	return 0;
+Path::RefType Path::getRefType(string var) {
+	if (refs.find(var) != refs.end()) return Path::RefType::Func;
+	if (listRefs.find(var) != listRefs.end()) return Path::RefType::List;
+	if (mapRefs.find(var) != mapRefs.end()) return Path::RefType::Map;
+	return Path::RefType::None;
 }
 
 Path& Path::addRef(string var, RefFunc func) {
@@ -74,7 +80,7 @@ int Path::checkNode(http_request req, string node_t, string node_v, vector<any>&
 		return 1;
 	}
 
-	switch (existsRef(var_n)) {
+	switch (getRefType(var_n)) {
 	case 1: {
 		return refs[var_n](req, vars, v);
 	} case 2: {

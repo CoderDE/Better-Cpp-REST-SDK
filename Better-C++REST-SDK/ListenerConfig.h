@@ -4,19 +4,12 @@
 #include <experimental/any>
 #include <cpprest/http_listener.h>
 
-using namespace std;
-using namespace std::experimental;
-using namespace web;
-using namespace web::http;
-using namespace web::http::experimental;
-using namespace web::http::experimental::listener;
-
 struct ListenerConfig {
-	http_listener_config nconfig;
+	web::http::experimental::listener::http_listener_config nconfig;
 
-	std::function<void(http_request)> validButFailed;
-	std::function<void(http_request)> foundInvalidVar;
-	std::function<void(http_request)> notFound;
-	std::function<void(http_request, vector<any>&)> before;
-	std::function<void(http_request, vector<any>&, int)> after;
+	std::function<void(web::http::http_request)> validButFailed;
+	std::function<void(web::http::http_request)> foundInvalidVar;
+	std::function<void(web::http::http_request)> notFound;
+	std::function<void(web::http::http_request, std::vector<std::experimental::any>&)> before;
+	std::function<void(web::http::http_request, std::vector<std::experimental::any>&, int)> after;
 };

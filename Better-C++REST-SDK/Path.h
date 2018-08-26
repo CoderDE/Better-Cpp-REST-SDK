@@ -8,26 +8,29 @@
 
 //#include "HandlerFunc.h"
 
-#define HandlerFunc std::function<void(web::http::http_request, std::vector<std::experimental::any>)>
-#define RefFunc std::function<int(http_request, vector<any>&, any)>
-
-using namespace std;
-using namespace std::experimental;
-using namespace web::http;
+using HandlerFunc = std::function<void(web::http::http_request, std::vector<std::experimental::any>)>;
+using RefFunc = std::function<int(web::http::http_request, std::vector<std::experimental::any>&, std::experimental::any)>;
 
 class Listener;
 
 class Path {
 public:
-	Path(string path, Listener& listener);
+	enum RefType {
+		Func,
+		List,
+		Map,
+		None
+	};
 
-	string toString() const;
-	const vector<string> getNodes() const;
-	int existsRef(string var);
+	Path(std::string path, Listener& listener);
+
+	std::string toString() const;
+	const std::vector<std::string> getNodes() const;
+	RefType getRefType(std::string var);
 
 	template<typename value_T>
-	Path& addRef(string var, vector<value_T> list) {
-		vector<any> ref;
+	Path& addRef(std::string var, std::vector<value_T> list) {
+		std::vector<std::experimental::any> ref;
 		for (auto& v : list) ref.push_back(v);
 		listRefs[var] = ref;
 
@@ -35,15 +38,15 @@ public:
 	}
 
 	template<typename value_T>
-	Path& addRef(string var, map<string, value_T> map) {
-		std::map<string, any> ref;
+	Path& addRef(std::string var, std::map<std::string, value_T> map) {
+		std::map<std::string, std::experimental::any> ref;
 		for (auto& v : map) ref[v.first] = v.second;
 		mapRefs[var] = ref;
 
 		return *this;
 	}
 
-	Path& addRef(string var, RefFunc func);
+	Path& addRef(std::string var, RefFunc func);
 	
 	//template<typename...Args>
 	Path& get(HandlerFunc handler) {
@@ -71,28 +74,28 @@ public:
 	}
 
 	//template<typename... Args>
-	void trigger(method m, vector<any> args, http_request req) {
-		vector<HandlerFunc>* funcs;
-		if (m == methods::GET) funcs = &gethandlers;
-		else if (m == methods::POST) funcs = &posthandlers;
-		else if (m == methods::PUT) funcs = &puthandlers;
-		else if (m == methods::DEL) funcs = &delhandlers;
+	void trigger(web::http::method m, std::vector<std::experimental::any> args, web::http::http_request req) {
+		std::vector<HandlerFunc>* funcs;
+		if (m == web::http::methods::GET) funcs = &gethandlers;
+		else if (m == web::http::methods::POST) funcs = &posthandlers;
+		else if (m == web::http::methods::PUT) funcs = &puthandlers;
+		else if (m == web::http::methods::DEL) funcs = &delhandlers;
 		for (auto& func : *funcs) {
 			func(req, args);
 		}
 	}
 
-	int checkNode(http_request req, string node, string node_v, vector<any>&);
+	int checkNode(web::http::http_request req, std::string node, std::string node_v, std::vector<std::experimental::any>&);
 
 private:
-	string path;
+	std::string path;
 	Listener& listener;
-	vector<string> nodes;
-	map<string, RefFunc> refs;
-	map<string, vector<any>> listRefs;
-	map<string, map<string, any>> mapRefs;
-	vector<HandlerFunc> gethandlers;
-	vector<HandlerFunc> posthandlers;
-	vector<HandlerFunc> puthandlers;
-	vector<HandlerFunc> delhandlers;
+	std::vector<std::string> nodes;
+	std::map<std::string, RefFunc> refs;
+	std::map<std::string, std::vector<std::experimental::any>> listRefs;
+	std::map<std::string, std::map<std::string, std::experimental::any>> mapRefs;
+	std::vector<HandlerFunc> gethandlers;
+	std::vector<HandlerFunc> posthandlers;
+	std::vector<HandlerFunc> puthandlers;
+	std::vector<HandlerFunc> delhandlers;
 };

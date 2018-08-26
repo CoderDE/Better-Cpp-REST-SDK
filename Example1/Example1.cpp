@@ -33,13 +33,13 @@ int main() {
 		cout << "UserID : " << any_cast<int>(vars[0]) << endl << "User   : " << any_cast<string>(vars[1]) << endl;
 	});
 	listener.path("/accounts/{accID:int}")
-		.addRef("accID", (RefFunc)[](http_request req, vector<any>& args, any id){
+		.addRef("accID", (RefFunc)[](web::http::http_request req, vector<any>& args, any id){
 		args.push_back(to_string(any_cast<int>(id)));
 		return 0;
-	}).get([](http_request request, vector<any> vars) {
+	}).get([](web::http::http_request request, vector<any> vars) {
 		cout << "AccIDs : " << any_cast<string>(vars[0]) << endl;
 	});
-	listener.path("/meeps/{meepUUID:str}").addRef<int>("meepUUID", { {"1a", 30}, {"2b", 5} }).get([](http_request request, vector<any> vars) {
+	listener.path("/meeps/{meepUUID:str}").addRef<int>("meepUUID", { {"1a", 30}, {"2b", 5} }).get([](web::http::http_request request, vector<any> vars) {
 		cout << "MeepUUID : " << any_cast<string>(vars[0]) << endl
 			 << "MeepINT  : " << any_cast<int>(vars[1]) << endl;
 	});

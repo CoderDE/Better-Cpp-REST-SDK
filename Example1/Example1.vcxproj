@@ -81,7 +81,7 @@
     <Link>
       <AdditionalDependencies>$(StlAdditionalDependencies);%(AdditionalDependencies)</AdditionalDependencies>
       <LibraryDependencies>boost_system;crypto;ssl;cpprest;curl;Better-C++REST-SDK</LibraryDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);C:\Users\Yannic\source\repos\Better-C++REST-SDK\Better-C++REST-SDK\bin\x64\Debug</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);../Better-C++REST-SDK/bin/x64/Debug</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

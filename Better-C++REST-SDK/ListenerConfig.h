@@ -17,4 +17,6 @@ struct ListenerConfig {
 	std::function<void(http_request)> validButFailed;
 	std::function<void(http_request)> foundInvalidVar;
 	std::function<void(http_request)> notFound;
+	std::function<void(http_request, vector<any>&)> before;
+	std::function<void(http_request, vector<any>&, int)> after;
 };

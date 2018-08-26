@@ -39,7 +39,7 @@ void Listener::handle(http_request req) {
 	bool validButFailed = false;
 	
 	vector<any> vars_r;
-	config.before(req, vars_r);
+	if (config.before) config.before(req, vars_r);
 	for (Path& path : paths) {
 		bool next = false;
 		auto n = path.getNodes();
@@ -64,7 +64,7 @@ void Listener::handle(http_request req) {
 		}
 		if (next) continue;
 		path.trigger(req.method(), vars, req);
-		config.after(req, vars, 0);
+		if (config.after) config.after(req, vars, 0);
 		return;
 	}
 

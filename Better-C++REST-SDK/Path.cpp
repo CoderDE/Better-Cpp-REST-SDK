@@ -81,9 +81,9 @@ int Path::checkNode(http_request req, string node_t, string node_v, vector<any>&
 	}
 
 	switch (getRefType(var_n)) {
-	case 1: {
+	case Path::RefType::Func: {
 		return refs[var_n](req, vars, v);
-	} case 2: {
+	} case Path::RefType::List: {
 		if (var_t != "int") return 2;
 		vars.push_back(v);
 		try {
@@ -92,7 +92,7 @@ int Path::checkNode(http_request req, string node_t, string node_v, vector<any>&
 			return 3;
 		}
 		return 0;
-	} case 3: {
+	} case Path::RefType::Map: {
 		if (var_t != "str") {
 			if (var_t == "int") v = to_string(any_cast<int>(v));
 			else return 2;

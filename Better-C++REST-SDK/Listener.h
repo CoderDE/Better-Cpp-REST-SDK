@@ -8,11 +8,7 @@
 
 class Listener {
 public:
-	Listener(std::string uri, ListenerConfig config = ListenerConfig{ web::http::experimental::listener::http_listener_config(),
-		[](auto req) {req.reply(web::http::status_codes::NotAcceptable); },
-		[](auto req) {req.reply(web::http::status_codes::BadRequest); },
-		[](auto req) {req.reply(web::http::status_codes::NotFound); },
-	});
+	Listener(std::string uri, ListenerConfig config = ListenerConfig());
 
 	web::http::experimental::listener::http_listener& getNative();
 	Path& path(std::string path);

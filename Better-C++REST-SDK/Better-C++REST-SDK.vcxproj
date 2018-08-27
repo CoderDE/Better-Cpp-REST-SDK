@@ -71,10 +71,12 @@
     <ClInclude Include="HandlerFunc.h" />
     <ClInclude Include="Listener.h" />
     <ClInclude Include="ListenerConfig.h" />
+    <ClInclude Include="ListenerException.h" />
     <ClInclude Include="Path.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Listener.cpp" />
+    <ClCompile Include="ListenerException.cpp" />
     <ClCompile Include="Path.cpp" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

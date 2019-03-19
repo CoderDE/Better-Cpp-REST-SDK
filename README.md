@@ -9,7 +9,7 @@ It provides functions like:
 
 ## Dependencies
 - C++
-- [https://github.com/Microsoft/cpprestsdk](C++ REST SDK)
+- [C++ REST SDK](https://github.com/Microsoft/cpprestsdk)
 
 ## Installation
 Not working
